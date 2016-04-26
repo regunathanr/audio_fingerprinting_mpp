@@ -1,0 +1,6 @@
+[database_creds]
+host: 10.110.122.107
+port: 5432
+user: gpadmin
+database: regu_test
+password: changeme

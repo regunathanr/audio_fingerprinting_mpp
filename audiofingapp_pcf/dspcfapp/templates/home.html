@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div id='headline' class="text-center">
+    <style>
+    td, th {
+        padding: 1px 4px;
+        border: 1px black solid;
+    }
+    </style>
+    <script type="text/javascript">
+    $(document).ready( 
+        function () {
+           setTimeout(
+               function(){
+                   /* Remove the background image */
+                   $('.full').css("background-color","#ffffff");
+                   $('.full').css("background-image","none");
+                   
+                   /* Spinner for heatmap plots */
+                   //d3.select("#heatmap").html("\<h1 class=\"text-center\">Sample Heatmap\</h1>"+"\<br>"+  
+                   //"\<span id='hmap_spinner'>\<img src='../img/spinner.gif' class=\"custom-spinner\">\</span>"
+                   //);
+                                   
+                   /* Fetch data for heatmap */
+                   $.getJSON("/_extract_fing_identify", function (data) { 
+                       tabulate(data.hmap,['db_aud','time_diff','count']);
+                       //barplot_d3(data.hmap);
+                       //grouped_barplot(data.hmap);
+                   });           
+                                                     
+               },
+               /* Timeout before the heatmap is rendered */ 
+               5000);
+        });
+    </script>
+</div>
+
+<div id = "sndcldurlid" class="text-center">
+    <form id = "sndcldformid" onload="sndcldurl_load(); return false;" onsubmit="sndcldurl_fn(); return true;">
+        <h1> Enter SoundCloud URL of the audio recording</h1>
+        <br> <br>
+        <input type="text" id="sndcldurl" class="text-center" name="pname" placeholder="sndcldurl value" required  />
+        <br> <br>
+    </form>
+</div>
+
+<script type="text/javascript">
+function sndcldurl_load() {
+    $.getJSON("/_get_sndcldurl", function (val) { 
+       window.document.getElementById("sndcldurl").value = ""+val.sndcldurl_id;
+    });
+} 
+function sndcldurl_fn() {
+    // trying this now - works! (getElementByID is not the method --> getElementById is the method!!)
+    var val = window.document.getElementById("sndcldurl").value;
+    var url_val = "/_sndcldurl_id/"+val;
+    $.getJSON(url_val);
+    
+    //d3.select("#anomaliestable h4").data([]).exit().remove();
+    //d3.select("#anomaliestable svg").data([]).exit().remove();
+
+    
+    //d3.select("#hmap_spinner").html("\<span id='hmap_spinner'>\<img src='../img/spinner.gif' class=\"custom-spinner\">\</span>");
+    $.getJSON("/_extract_fing_identify", function (data) { 
+        tabulate(data.hmap,['db_aud','time_diff','count']);
+        //barplot_d3(data.hmap);
+        //grouped_barplot(data.hmap);
+    });
+}  
+</script>
+
+<div id='heatmap' class="text-center">
+</div>
+<div id='modelcoefs' class="text-center">
+</div>
+<div id='tseries' class="text-center">
+</div>
+<div id='tseries_nvd3' class="text-center">
+</div>
+{% endblock %}
