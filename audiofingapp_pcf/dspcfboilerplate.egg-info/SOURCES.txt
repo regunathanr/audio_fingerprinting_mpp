@@ -14,6 +14,7 @@ dspcfapp/sql/queries.py
 dspcfapp/static/.DS_Store
 dspcfapp/static/css/custom.css
 dspcfapp/static/img/bg-cloud-native-hero.jpg
+dspcfapp/static/img/fingerprint_arch.png
 dspcfapp/static/img/hawq.png
 dspcfapp/static/img/pdspipeline.png
 dspcfapp/static/img/pivotal.png

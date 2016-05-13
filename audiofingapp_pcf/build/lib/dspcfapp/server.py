@@ -103,11 +103,14 @@ def sndcldurl_id(val):
     global sndcld_url
     import ast
     import re
+    import urllib
     #params = ast.literal_eval(re.sub("[\\t]","",val).strip())
     #sndcld_url = params['url']
     sndcld_url = re.sub("_","/",val)
     #sndcld_url =val
+    #sndcld_url = urllib.unquote(val)
     print "sndcld_url = ", sndcld_url
+    logger.info('set sndcld url = {0}'.format(sndcld_url))
     return jsonify(sndcldurl=[{'sndcldurl':sndcld_url}])
 
 @app.route('/_get_sndcldurl')    
@@ -117,6 +120,7 @@ def get_sndcldurl():
     """
     global sndcld_url 
     print "sndcldurl_id = ", sndcld_url
+    logger.info('get sndcld url = {0}'.format(sndcld_url))
     return jsonify(sndcldurl=[{'sndcldurl':sndcld_url}])
 
 @app.route('/_extract_fing_identify')    
@@ -151,9 +155,24 @@ def extract_fing_identify():
     sql = perform_fing_matching(INPUT_SCHEMA)
     logger.info(sql)
     df = conn.fetchDataFrame(sql)
-    logger.info('finished match: {0} rows'.format(len(df)))    
+    logger.info('finished match: {0} rows'.format(len(df))) 
+
+    #sql = upload_matching_snippet(INPUT_SCHEMA)
+    #logger.info(sql)
+    #df1 = conn.executeQuery(sql)
+    #logger.info('finished uploading')   
 
     return jsonify(hmap=[{'db_aud':r['db_aud'],'time_diff':r['time_diff'], 'count':r['count']} for indx, r in df.iterrows()])
+
+
+@app.route('/_match_and_upload')    
+def match_and_upload():
+    INPUT_SCHEMA = 'audiofp'
+    sql = upload_matching_snippet(INPUT_SCHEMA)
+    logger.info(sql)
+    df1 = conn.executeQuery(sql)
+    logger.info('finished uploading')
+    return jsonify(hmap=[{'result':'done'}])
     
 
 @app.route('/_hmap')    

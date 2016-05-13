@@ -131,7 +131,7 @@ def perform_fing_matching(input_schema):
     select
           * 
     from
-        {input_schema}.training_fing_descriptors_vlcmp3
+        {input_schema}.training_fing_descriptors_vlcmp3_new
     )t2
     on(t1.fing_val=t2.fing_val)
     )
@@ -139,4 +139,8 @@ def perform_fing_matching(input_schema):
     """.format(input_schema=input_schema
                
                )
+    return sql
+
+def upload_matching_snippet(input_schema):
+    sql = """select {input_schema}.match_and_upload_snippet_fast()""".format(input_schema=input_schema)
     return sql
