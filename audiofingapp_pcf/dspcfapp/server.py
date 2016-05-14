@@ -170,9 +170,12 @@ def match_and_upload():
     INPUT_SCHEMA = 'audiofp'
     sql = upload_matching_snippet(INPUT_SCHEMA)
     logger.info(sql)
-    df1 = conn.executeQuery(sql)
+    df = conn.fetchDataFrame(sql)
+    #df1 = conn.executeQuery(sql)
     logger.info('finished uploading')
-    return jsonify(hmap=[{'result':'done'}])
+    logger.info('')
+    return jsonify(hmap=[{'uploaded_snippet_url':r['match_and_upload_snippet_fast']} for indx, r in df.iterrows()])
+    #return jsonify(hmap=[{'result':'done'}])
     
 
 @app.route('/_hmap')    

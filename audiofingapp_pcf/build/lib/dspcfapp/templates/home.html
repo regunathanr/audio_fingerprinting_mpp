@@ -39,9 +39,11 @@
                     });
                     $.getJSON("/_match_and_upload",function(val1){
                        setTimeout(function(){
-                      
-                       track_url_match = 'https://soundcloud.com/user-558890072-861956/matched-song'
-                       SC.oEmbed(track_url_match, {
+                        track_url_match = val1.hmap[0].uploaded_snippet_url;
+                        var str1 = 'https://soundcloud.com/user-558890072-861956/'
+                        var track_url_match_final = str1.concat(track_url_match)
+                       //track_url_match = 'https://soundcloud.com/user-558890072-861956/matched-song'
+                       SC.oEmbed(track_url_match_final, {
                           element: document.getElementById('matched_audio')
                         });
                         }, 10*1000);
