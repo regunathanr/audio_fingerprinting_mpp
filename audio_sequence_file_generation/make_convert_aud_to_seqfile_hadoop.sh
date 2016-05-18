@@ -1,3 +1,0 @@
-export HADOOP_HOME='/usr/lib/gphd/hadoop/'
-javac -classpath $HADOOP_HOME/hadoop-common-2.2.0-gphd-3.0.1.0.jar:$HADOOP_HOME/lib/commons-cli-1.2.jar:$HADOOP_HOME/hadoop-annotations-2.2.0-gphd-3.0.1.0.jar:/usr/lib/gphd/hadoop-mapreduce/hadoop-mapreduce-client-core-2.2.0-gphd-3.0.1.0.jar:$HADOOP_HOME/lib/commons-logging-1.1.1.jar -g -Xlint:deprecation ConvertAudioToSequenceFileHadoop.java
-jar -cvf convert_audio_to_seqfile_hadoop.jar  ConvertAudioToSequenceFileHadoop.class ConvertAudioToSequenceFileHadoop\$AudioToSequenceMapper.class
